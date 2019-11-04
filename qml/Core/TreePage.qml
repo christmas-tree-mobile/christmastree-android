@@ -201,6 +201,8 @@ Item {
             source:           "qrc:/resources/images/tree/background_%1.png".arg(treePage.currentBackgroundNum)
             fillMode:         Image.PreserveAspectCrop
 
+            readonly property real imageScale: sourceSize.width > 0.0 ? paintedWidth / sourceSize.width : 1.0
+
             function imageWidth(src_width, src_height, dst_width, dst_height) {
                 if (src_width > 0 && src_height > 0 && dst_width > 0 && dst_height > 0) {
                     if (dst_width / dst_height < src_width / src_height) {
@@ -657,8 +659,6 @@ Item {
                                 treePage.newToy.y      = mapped.y - treePage.newToy.height;
                                 treePage.newToy.z      = 4;
 
-                                treePage.newToy.reduceToy();
-
                                 if (!treePage.validateToy(treePage.newToy.x + treePage.newToy.width / 2, treePage.newToy.y + treePage.newToy.height / 2)) {
                                     treePage.newToy.destroyToy();
                                 }
@@ -680,9 +680,7 @@ Item {
                                     var component = Qt.createComponent("Tree/Toy.qml");
 
                                     if (component.status === Component.Ready) {
-                                        treePage.newToy = component.createObject(backgroundRectangle, {"z": 3, "treePage": treePage, "toyType": toyType, "toyNumber": toyNumber});
-
-                                        treePage.newToy.enlargeToy();
+                                        treePage.newToy = component.createObject(backgroundRectangle, {"z": 3, "treePage": treePage, "imageScale": backgroundImage.imageScale, "toyType": toyType, "toyNumber": toyNumber});
 
                                         treePage.newToy.x = toysItemMouseArea.pressEventX - treePage.newToy.width / 2;
                                         treePage.newToy.y = toysItemMouseArea.pressEventY - treePage.newToy.height;
