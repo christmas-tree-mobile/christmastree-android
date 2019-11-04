@@ -5,10 +5,12 @@
 #include <QtQml/QQmlApplicationEngine>
 #include <QtQml/QQmlContext>
 #include <QtQuickControls2/QQuickStyle>
+#include <QtAndroidExtras/QtAndroid>
 
+#include "androidgw.h"
 #include "admobhelper.h"
+#include "uihelper.h"
 #include "sharehelper.h"
-#include "storehelper.h"
 #include "gifcreator.h"
 
 int main(int argc, char *argv[])
@@ -20,16 +22,20 @@ int main(int argc, char *argv[])
         QGuiApplication::installTranslator(&translator);
     }
 
+    QObject::connect(&AndroidGW::GetInstance(), &AndroidGW::bannerViewHeightUpdated, &AdMobHelper::GetInstance(), &AdMobHelper::setBannerViewHeight);
+
     QQmlApplicationEngine engine;
 
     engine.rootContext()->setContextProperty(QStringLiteral("AdMobHelper"), &AdMobHelper::GetInstance());
+    engine.rootContext()->setContextProperty(QStringLiteral("UIHelper"), &UIHelper::GetInstance());
     engine.rootContext()->setContextProperty(QStringLiteral("ShareHelper"), &ShareHelper::GetInstance());
-    engine.rootContext()->setContextProperty(QStringLiteral("StoreHelper"), &StoreHelper::GetInstance());
     engine.rootContext()->setContextProperty(QStringLiteral("GIFCreator"), &GIFCreator::GetInstance());
 
     QQuickStyle::setStyle(QStringLiteral("Default"));
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+
+    QtAndroid::hideSplashScreen();
 
     if (engine.rootObjects().isEmpty()) {
         return -1;

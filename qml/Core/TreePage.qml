@@ -166,7 +166,7 @@ Item {
         if (!backgroundImage.grabToImage(function (result) {
             result.saveToFile(ShareHelper.imageFilePath);
 
-            ShareHelper.showShareToView(ShareHelper.imageFilePath);
+            ShareHelper.shareImage(ShareHelper.imageFilePath);
 
             waitRectangle.visible = false;
         })) {
@@ -776,7 +776,7 @@ Item {
             } else {
                 if (frameNumber >= framesCount) {
                     if (GIFCreator.createGIF(framesCount, interval / 10)) {
-                        ShareHelper.showShareToView(GIFCreator.gifFilePath);
+                        ShareHelper.shareImage(GIFCreator.gifFilePath);
                     } else {
                         console.log("createGIF() failed");
                     }
