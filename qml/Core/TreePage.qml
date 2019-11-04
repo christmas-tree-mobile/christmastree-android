@@ -161,18 +161,18 @@ Item {
     }
 
     function captureImage() {
-        waitRectangle.visible = true;
+        waitArea.visible = true;
 
         if (!backgroundImage.grabToImage(function (result) {
             result.saveToFile(ShareHelper.imageFilePath);
 
             ShareHelper.shareImage(ShareHelper.imageFilePath);
 
-            waitRectangle.visible = false;
+            waitArea.visible = false;
         })) {
             console.log("grabToImage() failed");
 
-            waitRectangle.visible = false;
+            waitArea.visible = false;
         }
     }
 
@@ -699,21 +699,24 @@ Item {
             }
         }
 
-        Rectangle {
-             id:           waitRectangle
+        MultiPointTouchArea {
+             id:           waitArea
              anchors.fill: parent
              z:            4
-             color:        "black"
-             opacity:      0.75
              visible:      false
+
+             Rectangle {
+                 anchors.fill: parent
+                 color:        "black"
+                 opacity:      0.75
+             }
 
              BusyIndicator {
                  anchors.centerIn: parent
+                 z:                1
+                 implicitWidth:    UtilScript.dp(64)
+                 implicitHeight:   UtilScript.dp(64)
                  running:          parent.visible
-             }
-
-             MultiPointTouchArea {
-                 anchors.fill: parent
              }
          }
     }
@@ -768,7 +771,7 @@ Item {
 
         onRunningChanged: {
             if (running) {
-                waitRectangle.visible = true;
+                waitArea.visible = true;
 
                 frameNumber = 0;
             } else {
@@ -780,7 +783,7 @@ Item {
                     }
                 }
 
-                waitRectangle.visible = false;
+                waitArea.visible = false;
             }
         }
 
