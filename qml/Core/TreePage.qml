@@ -305,7 +305,7 @@ Item {
                 anchors.fill: parent
                 system:       particleSystem1
                 lifeSpan:     1000
-                size:         UtilScript.dp(32)
+                size:         UtilScript.dp(16)
 
                 velocity: AngleDirection {
                     angle:              90
@@ -332,7 +332,7 @@ Item {
                 anchors.fill: parent
                 system:       particleSystem2
                 lifeSpan:     1000
-                size:         UtilScript.dp(32)
+                size:         UtilScript.dp(16)
 
                 velocity: AngleDirection {
                     angle:              90
@@ -359,7 +359,7 @@ Item {
                 anchors.fill: parent
                 system:       particleSystem3
                 lifeSpan:     1000
-                size:         UtilScript.dp(32)
+                size:         UtilScript.dp(16)
 
                 velocity: AngleDirection {
                     angle:              90
@@ -386,7 +386,7 @@ Item {
                 anchors.fill: parent
                 system:       particleSystem4
                 lifeSpan:     1000
-                size:         UtilScript.dp(32)
+                size:         UtilScript.dp(16)
 
                 velocity: AngleDirection {
                     angle:              90
