@@ -46,8 +46,6 @@ Item {
                                                                                backgroundImage.paintedHeight,
                                                                                lowerRightTreePointYConfig)
 
-    property bool lastInterstitialActive:             false
-
     property int currentBackgroundNum:                1
     property int currentTreeNum:                      1
 
@@ -56,15 +54,13 @@ Item {
     property var newToy:                              null
 
     onInterstitialActiveChanged: {
-        if (!interstitialActive && lastInterstitialActive) {
+        if (!interstitialActive) {
             if (interstitialCaptureFmt === "IMAGE") {
                 captureImage();
             } else {
                 captureGIFTimer.start();
             }
         }
-
-        lastInterstitialActive = interstitialActive;
     }
 
     onCurrentBackgroundNumChanged: {
