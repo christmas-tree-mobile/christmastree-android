@@ -3,13 +3,14 @@
 
 #include "admobhelper.h"
 
-const QString AdMobHelper::ADMOB_BANNERVIEW_UNIT_ID  (QStringLiteral("ca-app-pub-2455088855015693/6835647536"));
-const QString AdMobHelper::ADMOB_INTERSTITIAL_UNIT_ID(QStringLiteral("ca-app-pub-2455088855015693/9626721580"));
+const QString AdMobHelper::ADMOB_BANNERVIEW_UNIT_ID  (QStringLiteral("ca-app-pub-3940256099942544/6300978111"));
+const QString AdMobHelper::ADMOB_INTERSTITIAL_UNIT_ID(QStringLiteral("ca-app-pub-3940256099942544/1033173712"));
 
 AdMobHelper::AdMobHelper(QObject *parent) : QObject(parent)
 {
-    Initialized      = false;
-    BannerViewHeight = 0;
+    Initialized        = false;
+    InterstitialActive = false;
+    BannerViewHeight   = 0;
 }
 
 AdMobHelper &AdMobHelper::GetInstance()
@@ -17,6 +18,20 @@ AdMobHelper &AdMobHelper::GetInstance()
     static AdMobHelper instance;
 
     return instance;
+}
+
+bool AdMobHelper::interstitialReady() const
+{
+    if (Initialized) {
+        return QtAndroid::androidActivity().callMethod<jboolean>("getInterstitialIsLoaded");
+    } else {
+        return false;
+    }
+}
+
+bool AdMobHelper::interstitialActive() const
+{
+    return InterstitialActive;
 }
 
 int AdMobHelper::bannerViewHeight() const
@@ -62,6 +77,15 @@ void AdMobHelper::showInterstitial()
 {
     if (Initialized) {
         QtAndroid::androidActivity().callMethod<void>("showInterstitial");
+    }
+}
+
+void AdMobHelper::setInterstitialActive(bool active)
+{
+    if (InterstitialActive != active) {
+        InterstitialActive = active;
+
+        emit interstitialActiveChanged(InterstitialActive);
     }
 }
 

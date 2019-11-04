@@ -1,6 +1,8 @@
 package com.derevenetz.oleg.christmastree;
 
 import java.io.File;
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
 
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +40,7 @@ public class TreeActivity extends QtActivity
     private AdView            bannerView                 = null;
     private InterstitialAd    interstitial               = null;
 
+    private static native void interstitialActiveUpdated(boolean active);
     private static native void bannerViewHeightUpdated(int height);
 
     @Override
@@ -160,8 +163,16 @@ public class TreeActivity extends QtActivity
 
                 interstitial.setAdListener(new AdListener() {
                     @Override
+                    public void onAdOpened()
+                    {
+                        interstitialActiveUpdated(true);
+                    }
+
+                    @Override
                     public void onAdClosed()
                     {
+                        interstitialActiveUpdated(false);
+
                         if (interstitial != null) {
                             AdRequest.Builder builder = new AdRequest.Builder();
 
@@ -365,5 +376,29 @@ public class TreeActivity extends QtActivity
                 }
             }
         });
+    }
+
+    public boolean getInterstitialIsLoaded()
+    {
+        Callable<Boolean> callable = new Callable<Boolean>() {
+            @Override
+            public Boolean call() {
+                return Boolean.valueOf(interstitial != null && interstitial.isLoaded());
+            }
+        };
+
+        FutureTask<Boolean> task = new FutureTask<>(callable);
+
+        runOnUiThread(task);
+
+        boolean result = false;
+
+        try {
+            result = task.get().booleanValue();
+        } catch (Exception ex) {
+            Log.w("TreeActivity", "getInterstitialIsLoaded() : " + ex.toString());
+        }
+
+        return result;
     }
 }

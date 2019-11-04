@@ -803,14 +803,6 @@ Item {
         }
     }
 
-    Connections {
-        target: ShareHelper
-
-        onShareToViewCompleted: {
-            StoreHelper.requestReview();
-        }
-    }
-
     Component.onCompleted: {
         var background_num = parseInt(mainWindow.getSetting("BackgroundNum", "1"), 10);
         var tree_num       = parseInt(mainWindow.getSetting("TreeNum",       "1"), 10);

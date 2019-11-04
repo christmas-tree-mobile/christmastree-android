@@ -21,6 +21,7 @@ public:
     static AndroidGW &GetInstance();
 
 signals:
+    void interstitialActiveUpdated(bool active);
     void bannerViewHeightUpdated(int bannerViewHeight);
 };
 

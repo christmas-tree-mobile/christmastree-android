@@ -15,6 +15,11 @@ AndroidGW &AndroidGW::GetInstance()
     return instance;
 }
 
+extern "C" JNIEXPORT void JNICALL JAVA_NATIVE_METHOD_NAME(TreeActivity, interstitialActiveUpdated)(JNIEnv *, jclass, jboolean active)
+{
+    emit AndroidGW::GetInstance().interstitialActiveUpdated(active);
+}
+
 extern "C" JNIEXPORT void JNICALL JAVA_NATIVE_METHOD_NAME(TreeActivity, bannerViewHeightUpdated)(JNIEnv *, jclass, jint height)
 {
     emit AndroidGW::GetInstance().bannerViewHeightUpdated(height);

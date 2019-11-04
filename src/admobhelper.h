@@ -8,7 +8,9 @@ class AdMobHelper : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(int bannerViewHeight READ bannerViewHeight NOTIFY bannerViewHeightChanged)
+    Q_PROPERTY(bool interstitialReady  READ interstitialReady)
+    Q_PROPERTY(bool interstitialActive READ interstitialActive NOTIFY interstitialActiveChanged)
+    Q_PROPERTY(int  bannerViewHeight   READ bannerViewHeight   NOTIFY bannerViewHeightChanged)
 
 private:
     explicit AdMobHelper(QObject *parent = nullptr);
@@ -26,6 +28,8 @@ public:
 
     static AdMobHelper &GetInstance();
 
+    bool interstitialReady() const;
+    bool interstitialActive() const;
     int bannerViewHeight() const;
 
     Q_INVOKABLE void initAds();
@@ -38,13 +42,15 @@ public:
     Q_INVOKABLE void showInterstitial();
 
 public slots:
+    void setInterstitialActive(bool active);
     void setBannerViewHeight(int height);
 
 signals:
+    void interstitialActiveChanged(bool interstitialActive);
     void bannerViewHeightChanged(int bannerViewHeight);
 
 private:
-    bool Initialized;
+    bool Initialized, InterstitialActive;
     int  BannerViewHeight;
 };
 
