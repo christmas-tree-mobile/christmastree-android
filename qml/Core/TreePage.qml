@@ -293,7 +293,7 @@ Item {
 
             ParticleSystem {
                 id:      particleSystem1
-                running: treePage.appInForeground && treePage.pageActive &&
+                running: treePage.pageActive &&
                          treePage.currentBackgroundNum <= treePage.maxBackgroundNumWithSnow
             }
 
@@ -320,7 +320,7 @@ Item {
 
             ParticleSystem {
                 id:      particleSystem2
-                running: treePage.appInForeground && treePage.pageActive &&
+                running: treePage.pageActive &&
                          treePage.currentBackgroundNum <= treePage.maxBackgroundNumWithSnow
             }
 
@@ -347,7 +347,7 @@ Item {
 
             ParticleSystem {
                 id:      particleSystem3
-                running: treePage.appInForeground && treePage.pageActive &&
+                running: treePage.pageActive &&
                          treePage.currentBackgroundNum <= treePage.maxBackgroundNumWithSnow
             }
 
@@ -374,7 +374,7 @@ Item {
 
             ParticleSystem {
                 id:      particleSystem4
-                running: treePage.appInForeground && treePage.pageActive &&
+                running: treePage.pageActive &&
                          treePage.currentBackgroundNum <= treePage.maxBackgroundNumWithSnow
             }
 
