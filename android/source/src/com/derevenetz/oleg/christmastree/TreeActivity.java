@@ -138,7 +138,7 @@ public class TreeActivity extends QtActivity
 
             startActivity(Intent.createChooser(intent, getResources().getString(R.string.share_image_chooser_title)));
         } catch (Exception ex) {
-            Log.w("TreeActivity", "shareImage() : " + ex.toString());
+            Log.e("TreeActivity", "shareImage() : " + ex.toString());
         }
     }
 
@@ -396,7 +396,7 @@ public class TreeActivity extends QtActivity
         try {
             result = task.get().booleanValue();
         } catch (Exception ex) {
-            Log.w("TreeActivity", "getInterstitialIsLoaded() : " + ex.toString());
+            Log.e("TreeActivity", "getInterstitialIsLoaded() : " + ex.toString());
         }
 
         return result;
