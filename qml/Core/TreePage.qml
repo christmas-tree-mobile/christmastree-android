@@ -698,25 +698,25 @@ Item {
         }
 
         MultiPointTouchArea {
-             id:           waitArea
-             anchors.fill: parent
-             z:            4
-             visible:      false
+            id:           waitArea
+            anchors.fill: parent
+            z:            4
+            visible:      false
 
-             Rectangle {
-                 anchors.fill: parent
-                 color:        "black"
-                 opacity:      0.75
-             }
+            Rectangle {
+                anchors.fill: parent
+                color:        "black"
+                opacity:      0.75
+            }
 
-             BusyIndicator {
-                 anchors.centerIn: parent
-                 z:                1
-                 implicitWidth:    UtilScript.dp(64)
-                 implicitHeight:   UtilScript.dp(64)
-                 running:          parent.visible
-             }
-         }
+            BusyIndicator {
+                anchors.centerIn: parent
+                z:                1
+                implicitWidth:    UtilScript.dp(64)
+                implicitHeight:   UtilScript.dp(64)
+                running:          parent.visible
+            }
+        }
     }
 
     PurchaseDialog {
