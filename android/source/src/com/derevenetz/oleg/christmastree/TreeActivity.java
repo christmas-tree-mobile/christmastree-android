@@ -380,14 +380,13 @@ public class TreeActivity extends QtActivity
 
     public boolean getInterstitialIsLoaded()
     {
-        Callable<Boolean> callable = new Callable<Boolean>() {
+        FutureTask<Boolean> task = new FutureTask<>(new Callable<Boolean>() {
             @Override
-            public Boolean call() {
+            public Boolean call()
+            {
                 return Boolean.valueOf(interstitial != null && interstitial.isLoaded());
             }
-        };
-
-        FutureTask<Boolean> task = new FutureTask<>(callable);
+        });
 
         runOnUiThread(task);
 
