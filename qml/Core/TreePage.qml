@@ -53,6 +53,20 @@ Item {
 
     property var newToy:                              null
 
+    Keys.onReleased: {
+        if (event.key === Qt.Key_Back) {
+            if (purchaseDialog.visible) {
+                purchaseDialog.close();
+
+                event.accepted = true;
+            } else if (helpDialog.visible) {
+                helpDialog.close();
+
+                event.accepted = true;
+            }
+        }
+    }
+
     onInterstitialActiveChanged: {
         if (!interstitialActive) {
             if (interstitialCaptureFmt === "IMAGE") {
