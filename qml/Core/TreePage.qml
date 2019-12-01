@@ -53,20 +53,6 @@ Item {
 
     property var newToy:                              null
 
-    Keys.onReleased: {
-        if (event.key === Qt.Key_Back) {
-            if (purchaseDialog.visible) {
-                purchaseDialog.close();
-
-                event.accepted = true;
-            } else if (helpDialog.visible) {
-                helpDialog.close();
-
-                event.accepted = true;
-            }
-        }
-    }
-
     onInterstitialActiveChanged: {
         if (!interstitialActive) {
             if (interstitialCaptureFmt === "IMAGE") {
@@ -85,6 +71,20 @@ Item {
 
     onCurrentTreeNumChanged: {
         mainWindow.setSetting("TreeNum", currentTreeNum.toString(10));
+    }
+
+    Keys.onReleased: {
+        if (event.key === Qt.Key_Back) {
+            if (purchaseDialog.visible) {
+                purchaseDialog.close();
+
+                event.accepted = true;
+            } else if (helpDialog.visible) {
+                helpDialog.close();
+
+                event.accepted = true;
+            }
+        }
     }
 
     function pageUpperTreePointX(background_image_source_size, background_image_painted_width, upper_tree_point_x_config) {
