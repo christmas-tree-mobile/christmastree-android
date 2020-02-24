@@ -34,12 +34,12 @@ public:
 
     Q_INVOKABLE void initAds();
 
-    Q_INVOKABLE void setPersonalization(bool personalized);
+    Q_INVOKABLE void setPersonalization(bool personalized) const;
 
-    Q_INVOKABLE void showBannerView();
-    Q_INVOKABLE void hideBannerView();
+    Q_INVOKABLE void showBannerView() const;
+    Q_INVOKABLE void hideBannerView() const;
 
-    Q_INVOKABLE void showInterstitial();
+    Q_INVOKABLE void showInterstitial() const;
 
 public slots:
     void setInterstitialActive(bool active);
