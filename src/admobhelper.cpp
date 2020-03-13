@@ -6,11 +6,12 @@
 const QString AdMobHelper::ADMOB_BANNERVIEW_UNIT_ID  (QStringLiteral("ca-app-pub-2455088855015693/8059980312"));
 const QString AdMobHelper::ADMOB_INTERSTITIAL_UNIT_ID(QStringLiteral("ca-app-pub-2455088855015693/5433816978"));
 
-AdMobHelper::AdMobHelper(QObject *parent) : QObject(parent)
+AdMobHelper::AdMobHelper(QObject *parent) :
+    QObject           (parent),
+    Initialized       (false),
+    InterstitialActive(false),
+    BannerViewHeight  (0)
 {
-    Initialized        = false;
-    InterstitialActive = false;
-    BannerViewHeight   = 0;
 }
 
 AdMobHelper &AdMobHelper::GetInstance()
