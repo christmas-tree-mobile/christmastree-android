@@ -26,7 +26,7 @@ IF NOT "%~1"=="" (
                           -D"sonar.organization=christmas-tree-mobile-github" ^
                           -D"sonar.sources=." ^
                           -D"sonar.sourceEncoding=UTF-8" ^
-                          -D"sonar.exclusions=qml/**/*,translations/*" ^
+                          -D"sonar.exclusions=qml/**/*,src/gif.h,translations/*" ^
                           -D"sonar.cfamily.build-wrapper-output=.sonarbuild\\bw-output" ^
                           -D"sonar.cfamily.cache.enabled=false" ^
                           -D"sonar.cfamily.threads=%NUMBER_OF_PROCESSORS%" ^
