@@ -6,6 +6,8 @@ CONFIG += c++17
 
 DEFINES += QT_DEPRECATED_WARNINGS QT_NO_CAST_FROM_ASCII QT_NO_CAST_TO_ASCII
 
+INCLUDEPATH += 3rdparty
+
 SOURCES += \
     src/admobhelper.cpp \
     src/androidgw.cpp \
@@ -15,9 +17,9 @@ SOURCES += \
     src/uihelper.cpp
 
 HEADERS += \
+    3rdparty/gif-h/gif.h \
     src/admobhelper.h \
     src/androidgw.h \
-    src/gif.h \
     src/gifcreator.h \
     src/sharehelper.h \
     src/uihelper.h
