@@ -1,0 +1,92 @@
+language: android
+
+os: linux
+
+android:
+  components:
+    - tools
+    - build-tools-29.0.2
+    - platform-tools
+    - android-29
+
+addons:
+  sonarcloud:
+    organization: "christmas-tree-mobile-github"
+    token:
+      secure: "rxWGb4ighZBtlTri0wLNaMLnCalNVf8DxiIkmYkndxjREjzbYdEVbhhFxkl5N5a8SYNkNhKtKawi8/4oQzyUNfEcXJLEdUp+ucgZnEmN62bxfJu32D6wSXxYk3M5sK7MtAJUzLws4SL9ndH9okOSpn42l+DQUlU+/FqUoFVpJeDu/g6ICWyuyu9rPcjNuPSu5U1wjMakS9DfRDFzIyViKudogoWNOv0Jen50Ze1R21ziDlrrzvHQOd+F9JQur0DvZCHp09V6c+WxBLnTCIsE75VY2L2G+4LJvbdC62g4vzbto/APdzQ02McRUXN3F2IZL8FNV2ZApzqp4qA3cjFRWMIhmOFw8v4PC7V7jCBRjJakfMbDUzxqr044JaBtMBG3rnFXq8K7usw1wRnpDU3QWkLISnTOMiTv5cYFfdDt7zjJuiG0J0vxdGbnAbyuyzSOrR+nv0niPTrCc+0jKQTXZvS/f1uoCGmkQLNs4Xj1ekPr+29th0c/3s2XI2u13pgjCfawiIzKMX7MDzaC88RKosleSJUhUFd/7w37I9LJGabTNkx8CmI+pzZqyIOIJAoiP2peaS5NT3hSZtZ6ARcXQfHAg1XNJZ2Pqv22UZ0TbJu5LISCkiavL0yvyNkJ2dlFznZYupTqWwdCUmwD2Hy/8OAT+j7NvVap9xABpyge+GY="
+
+install:
+  - |
+    echo && \
+    echo "------ INSTALLATION OF LINUX PACKAGES -----" && \
+    echo && \
+    sudo apt-get -y install p7zip-full oracle-java8-installer openjdk-11-jdk && \
+    echo && \
+    echo "------- INSTALLATION OF ANDROID NDK -------" && \
+    echo && \
+    yes | sdkmanager --verbose "ndk;21.0.6113669" && \
+    echo && \
+    echo "------- INSTALLATION OF QT PACKAGES -------" && \
+    echo && \
+    bash tools/install-qt.sh --version 5.12.9 --target android --toolchain android_armv7 --directory "$HOME/Qt" qtbase qtdeclarative qtquickcontrols2 qtmultimedia qtpurchasing qtandroidextras && \
+    echo && \
+    echo "----------- END OF INSTALLATION -----------" && \
+    echo
+
+script:
+  - |
+    echo && \
+    echo "---------- ENVIRONMENT VARIABLES ----------" && \
+    echo && \
+    export JAVA_HOME=/usr/lib/jvm/java-8-oracle && \
+    export ANDROID_SDK_ROOT=/usr/local/android-sdk && \
+    export ANDROID_NDK_ROOT=/usr/local/android-sdk/ndk/21.0.6113669 && \
+    export ANDROID_NDK_HOST=linux-x86_64 && \
+    export ANDROID_PLATFORM=android-29 && \
+    export PATH=$HOME/Qt/5.12.9/android_armv7/bin:$ANDROID_NDK_ROOT/prebuilt/$ANDROID_NDK_HOST/bin:$PATH && \
+    echo && \
+    echo "--------- UNSHALLOW GIT FOR SONAR ---------" && \
+    echo && \
+    git fetch --unshallow && \
+    echo && \
+    echo "---------- CREATE BUILD DIRECTORY ---------" && \
+    echo && \
+    mkdir .build && \
+    cd .build && \
+    echo && \
+    echo "------------------ QMAKE ------------------" && \
+    echo && \
+    qmake ../christmastree.pro && \
+    echo && \
+    echo "------------------ MAKE -------------------" && \
+    echo && \
+    make all && \
+    echo && \
+    echo "-------------- MAKE INSTALL ---------------" && \
+    echo && \
+    make install INSTALL_ROOT=android-build && \
+    echo && \
+    echo "------------- ANDROIDDEPLOYQT -------------" && \
+    echo && \
+    androiddeployqt --input android-libchristmastree.so-deployment-settings.json --output android-build --android-platform $ANDROID_PLATFORM --deployment bundled --gradle --no-gdbserver && \
+    if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then \
+        echo && \
+        echo "-------------- SONAR WRAPPER --------------" && \
+        echo && \
+        build-wrapper-linux-x86-64 --out-dir bw-output make clean all && \
+        echo && \
+        echo "-------------- SONAR SCANNER --------------" && \
+        echo && \
+        cd .. && \
+        export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 && \
+        sonar-scanner -Dsonar.projectKey=christmas-tree-mobile_christmastree-android \
+                      -Dsonar.projectName="ChristmasTree Android" \
+                      -Dsonar.sources=. \
+                      -Dsonar.sourceEncoding=UTF-8 \
+                      -Dsonar.exclusions="3rdparty/**/*,qml/**/*,translations/*" \
+                      -Dsonar.cfamily.build-wrapper-output=.build/bw-output \
+                      -Dsonar.cfamily.cache.enabled=false \
+                      -Dsonar.cfamily.threads=1 \
+                      -Dsonar.java.source=1.7 \
+                      -Dsonar.java.binaries=.build; \
+    fi
