@@ -25,3 +25,8 @@ extern "C" JNIEXPORT void JNICALL JAVA_NATIVE_METHOD_NAME(TreeActivity, bannerVi
 {
     emit AndroidGW::GetInstance().bannerViewHeightUpdated(height);
 }
+
+extern "C" JNIEXPORT void JNICALL JAVA_NATIVE_METHOD_NAME(TreeActivity, shareImageCompleted)(JNIEnv *, jclass)
+{
+    emit AndroidGW::GetInstance().shareImageCompleted();
+}

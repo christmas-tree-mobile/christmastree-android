@@ -23,6 +23,7 @@ public:
 signals:
     void interstitialActiveUpdated(bool active);
     void bannerViewHeightUpdated(int bannerViewHeight);
+    void shareImageCompleted();
 };
 
 #endif // ANDROIDGW_H

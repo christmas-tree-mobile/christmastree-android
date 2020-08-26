@@ -828,6 +828,15 @@ Item {
         }
     }
 
+    Connections {
+        target: ShareHelper
+
+        onShareImageCompleted: {
+            console.log("XXXDEBUG: onShareImageCompleted");
+            //StoreHelper.requestReview();
+        }
+    }
+
     Component.onCompleted: {
         var background_num = parseInt(mainWindow.getSetting("BackgroundNum", "1"), 10);
         var tree_num       = parseInt(mainWindow.getSetting("TreeNum",       "1"), 10);
