@@ -13,6 +13,7 @@ SOURCES += \
     src/admobhelper.cpp \
     src/androidgw.cpp \
     src/gifcreator.cpp \
+    src/gplayhelper.cpp \
     src/main.cpp \
     src/sharehelper.cpp \
     src/uihelper.cpp
@@ -22,6 +23,7 @@ HEADERS += \
     src/admobhelper.h \
     src/androidgw.h \
     src/gifcreator.h \
+    src/gplayhelper.h \
     src/sharehelper.h \
     src/uihelper.h
 

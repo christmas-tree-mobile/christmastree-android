@@ -832,8 +832,9 @@ Item {
         target: ShareHelper
 
         onShareImageCompleted: {
-            console.log("XXXDEBUG: onShareImageCompleted");
-            //StoreHelper.requestReview();
+            if (Math.random() < 0.10) {
+                GPlayHelper.requestReview();
+            }
         }
     }
 
