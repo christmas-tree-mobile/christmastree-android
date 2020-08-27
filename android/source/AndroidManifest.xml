@@ -2,7 +2,7 @@
 <manifest package="com.derevenetz.oleg.christmastree"
           xmlns:android="http://schemas.android.com/apk/res/android"
           android:versionName="1.0.4"
-          android:versionCode="18"
+          android:versionCode="20"
           android:installLocation="auto">
     <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="29"/>
     <supports-screens android:anyDensity="true"
