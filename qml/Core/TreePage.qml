@@ -654,7 +654,7 @@ Item {
                         onPositionChanged: {
                             var mapped = mapToItem(backgroundRectangle, mouse.x, mouse.y);
 
-                            if (treePage.newToy !== null) {
+                            if (treePage.newToy) {
                                 treePage.newToy.x = mapped.x - treePage.newToy.width / 2;
                                 treePage.newToy.y = mapped.y - treePage.newToy.height;
                             }
@@ -665,7 +665,7 @@ Item {
 
                             preventStealing = false;
 
-                            if (treePage.newToy !== null) {
+                            if (treePage.newToy) {
                                 treePage.newToy.parent = backgroundImage;
                                 treePage.newToy.x      = mapped.x - treePage.newToy.width / 2;
                                 treePage.newToy.y      = mapped.y - treePage.newToy.height;
