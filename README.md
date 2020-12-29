@@ -10,6 +10,7 @@ get additional information.
 
 ---
 
+[![Build Status](https://github.com/christmas-tree-mobile/christmastree-android/workflows/Build/badge.svg)](https://github.com/christmas-tree-mobile/christmastree-android/actions?query=workflow%3A%22Build%22)
 [![Travis Build Status](https://travis-ci.com/christmas-tree-mobile/christmastree-android.svg?branch=master)](https://travis-ci.com/christmas-tree-mobile/christmastree-android)
 [![SonarCloud Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=christmas-tree-mobile_christmastree-android&metric=alert_status)](https://sonarcloud.io/dashboard?id=christmas-tree-mobile_christmastree-android)
 
