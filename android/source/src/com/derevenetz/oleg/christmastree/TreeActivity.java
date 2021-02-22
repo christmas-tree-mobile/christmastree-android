@@ -5,8 +5,10 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
@@ -94,10 +96,16 @@ public class TreeActivity extends QtActivity
     public void shareImage(String image_path)
     {
         try {
+            Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", new File(image_path));
+
             Intent intent = new Intent(Intent.ACTION_SEND);
 
             intent.setType("image/*");
-            intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", new File(image_path)));
+            intent.setClipData(new ClipData(getResources().getString(R.string.share_image_clip_data_label),
+                                            new String[] {intent.getType()},
+                                            new ClipData.Item(uri)));
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.putExtra(Intent.EXTRA_STREAM, uri);
 
             startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.share_image_chooser_title)), REQUEST_CODE_SHARE_IMAGE);
         } catch (Exception ex) {
