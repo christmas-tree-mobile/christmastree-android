@@ -388,6 +388,10 @@ public class TreeActivity extends QtActivity
 
         try {
             result = task.get().booleanValue();
+        } catch (InterruptedException ex) {
+            Log.e("TreeActivity", "getInterstitialIsLoaded() : " + ex.toString());
+
+            Thread.currentThread().interrupt();
         } catch (Exception ex) {
             Log.e("TreeActivity", "getInterstitialIsLoaded() : " + ex.toString());
         }
