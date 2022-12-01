@@ -10,7 +10,7 @@ get additional information.
 
 ---
 
-[![Build Status](https://github.com/christmas-tree-mobile/christmastree-android/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/christmas-tree-mobile/christmastree-android/actions/workflows/build.yml?query=branch%3Amaster)
+[![Build Status](https://github.com/christmas-tree-mobile/christmastree-android/actions/workflows/build.yml/badge.svg?branch=rustore)](https://github.com/christmas-tree-mobile/christmastree-android/actions/workflows/build.yml?query=branch%3Arustore)
 [![SonarCloud Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=christmas-tree-mobile_christmastree-android&metric=alert_status)](https://sonarcloud.io/dashboard?id=christmas-tree-mobile_christmastree-android)
 
 [![SonarCloud Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=christmas-tree-mobile_christmastree-android&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=christmas-tree-mobile_christmastree-android)

@@ -2,7 +2,7 @@
 
 #include "androidgw.h"
 
-#define JAVA_NATIVE_METHOD_NAME(class_name, method_name) Java_com_derevenetz_oleg_christmastree_ ## class_name ## _ ## method_name
+#define JAVA_NATIVE_METHOD_NAME(class_name, method_name) Java_com_derevenetz_oleg_christmastree_rustore_ ## class_name ## _ ## method_name
 
 AndroidGW::AndroidGW(QObject *parent) :
     QObject(parent)

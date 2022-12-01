@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<manifest package="com.derevenetz.oleg.christmastree"
+<manifest package="com.derevenetz.oleg.christmastree.rustore"
           xmlns:android="http://schemas.android.com/apk/res/android"
           android:versionName="1.0.5"
           android:versionCode="22"
