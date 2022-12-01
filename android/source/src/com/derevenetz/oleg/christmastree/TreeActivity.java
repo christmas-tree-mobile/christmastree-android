@@ -55,7 +55,7 @@ public class TreeActivity extends QtActivity
     private static native void shareImageCompleted();
 
     @Override
-    public void onResume()
+    protected void onResume()
     {
         super.onResume();
 
@@ -65,7 +65,7 @@ public class TreeActivity extends QtActivity
     }
 
     @Override
-    public void onPause()
+    protected void onPause()
     {
         if (bannerView != null) {
             bannerView.pause();
@@ -75,7 +75,7 @@ public class TreeActivity extends QtActivity
     }
 
     @Override
-    public void onDestroy()
+    protected void onDestroy()
     {
         if (bannerView != null) {
             bannerView.destroy();
