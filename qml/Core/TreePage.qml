@@ -13,9 +13,7 @@ Item {
 
     readonly property bool appInForeground:           Qt.application.state === Qt.ApplicationActive
     readonly property bool pageActive:                StackView.status === StackView.Active
-    readonly property bool interstitialActive:        AdMobHelper.interstitialActive
 
-    readonly property int bannerViewHeight:           AdMobHelper.bannerViewHeight
     readonly property int maxBackgroundNum:           3
     readonly property int maxBackgroundNumWithSnow:   2
     readonly property int maxTreeNum:                 3
@@ -49,19 +47,7 @@ Item {
     property int currentBackgroundNum:                1
     property int currentTreeNum:                      1
 
-    property string interstitialCaptureFmt:           ""
-
     property var newToy:                              null
-
-    onInterstitialActiveChanged: {
-        if (!interstitialActive) {
-            if (interstitialCaptureFmt === "IMAGE") {
-                captureImage();
-            } else {
-                captureGIFTimer.start();
-            }
-        }
-    }
 
     onCurrentBackgroundNumChanged: {
         mainWindow.setSetting("BackgroundNum", currentBackgroundNum.toString(10));
@@ -75,11 +61,7 @@ Item {
 
     Keys.onReleased: {
         if (event.key === Qt.Key_Back) {
-            if (purchaseDialog.visible) {
-                purchaseDialog.close();
-
-                event.accepted = true;
-            } else if (helpDialog.visible) {
+            if (helpDialog.visible) {
                 helpDialog.close();
 
                 event.accepted = true;
@@ -190,7 +172,7 @@ Item {
 
     Audio {
         volume:   1.0
-        muted:    !treePage.appInForeground || !treePage.pageActive || treePage.interstitialActive
+        muted:    !treePage.appInForeground || !treePage.pageActive
         source:   "qrc:/resources/sound/tree/music.mp3"
         autoPlay: true
         loops:    Audio.Infinite
@@ -420,7 +402,7 @@ Item {
             id:                 helpButtonImage
             anchors.top:        parent.top
             anchors.left:       parent.left
-            anchors.topMargin:  Math.max(treePage.bannerViewHeight + UtilScript.dp(8), UtilScript.dp(34))
+            anchors.topMargin:  UtilScript.dp(34)
             anchors.leftMargin: UtilScript.dp(8)
             z:                  1
             width:              UtilScript.dp(32)
@@ -434,28 +416,6 @@ Item {
 
                 onClicked: {
                     helpDialog.open();
-                }
-            }
-        }
-
-        Image {
-            id:                  adSettingsButtonImage
-            anchors.top:         parent.top
-            anchors.right:       parent.right
-            anchors.topMargin:   Math.max(treePage.bannerViewHeight + UtilScript.dp(8), UtilScript.dp(34))
-            anchors.rightMargin: UtilScript.dp(8)
-            z:                   1
-            width:               UtilScript.dp(32)
-            height:              UtilScript.dp(32)
-            source:              "qrc:/resources/images/tree/button_ad_settings.png"
-            fillMode:            Image.PreserveAspectFit
-
-            MouseArea {
-                id:           adSettingsButtonMouseArea
-                anchors.fill: parent
-
-                onClicked: {
-                    adMobConsentDialog.open();
                 }
             }
         }
@@ -503,11 +463,7 @@ Item {
                     anchors.fill: parent
 
                     onClicked: {
-                        if (mainWindow.fullVersion) {
-                            treePage.captureImage();
-                        } else {
-                            purchaseDialog.open("IMAGE");
-                        }
+                        treePage.captureImage();
                     }
                 }
             }
@@ -524,11 +480,7 @@ Item {
                     anchors.fill: parent
 
                     onClicked: {
-                        if (mainWindow.fullVersion) {
-                            captureGIFTimer.start();
-                        } else {
-                            purchaseDialog.open("GIF");
-                        }
+                        captureGIFTimer.start();
                     }
                 }
             }
@@ -733,39 +685,6 @@ Item {
         }
     }
 
-    PurchaseDialog {
-        id: purchaseDialog
-        z:  1
-
-        onViewAdAndCaptureImageSelected: {
-            if (AdMobHelper.interstitialReady) {
-                treePage.interstitialCaptureFmt = "IMAGE";
-
-                AdMobHelper.showInterstitial();
-            } else {
-                treePage.captureImage();
-            }
-        }
-
-        onViewAdAndCaptureGIFSelected: {
-            if (AdMobHelper.interstitialReady) {
-                treePage.interstitialCaptureFmt = "GIF";
-
-                AdMobHelper.showInterstitial();
-            } else {
-                captureGIFTimer.start();
-            }
-        }
-
-        onPurchaseFullVersionSelected: {
-            fullVersionProduct.purchase();
-        }
-
-        onRestorePurchasesSelected: {
-            store.restorePurchases();
-        }
-    }
-
     HelpDialog {
         id: helpDialog
         z:  1
@@ -824,16 +743,6 @@ Item {
                 }
 
                 frameNumber = frameNumber + 1;
-            }
-        }
-    }
-
-    Connections {
-        target: ShareHelper
-
-        onShareImageCompleted: {
-            if (Math.random() < 0.10) {
-                GPlayHelper.requestReview();
             }
         }
     }

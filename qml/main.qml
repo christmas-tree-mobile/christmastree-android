@@ -2,7 +2,6 @@ import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.5
 import QtQuick.LocalStorage 2.12
-import QtPurchasing 1.0
 
 import "Core/Dialog"
 
@@ -11,22 +10,6 @@ ApplicationWindow {
     title:      qsTr("Christmas")
     visibility: Window.FullScreen
     visible:    true
-
-    property bool fullVersion:    false
-
-    property string adMobConsent: ""
-
-    onFullVersionChanged: {
-        setSetting("FullVersion", fullVersion ? "true" : "false");
-
-        updateFeatures();
-    }
-
-    onAdMobConsentChanged: {
-        setSetting("AdMobConsent", adMobConsent);
-
-        updateFeatures();
-    }
 
     function setSetting(key, value) {
         var db = LocalStorage.openDatabaseSync("ChristmasTreeDB", "1.0", "ChristmasTreeDB", 1000000);
@@ -55,54 +38,6 @@ ApplicationWindow {
         return value;
     }
 
-    function updateFeatures() {
-        if (!fullVersion && (adMobConsent === "PERSONALIZED" || adMobConsent === "NON_PERSONALIZED")) {
-            AdMobHelper.setPersonalization(adMobConsent === "PERSONALIZED");
-
-            AdMobHelper.initAds();
-        }
-
-        if (mainStackView.depth > 0 && typeof mainStackView.currentItem.bannerViewHeight === "number") {
-            if (fullVersion) {
-                AdMobHelper.hideBannerView();
-            } else {
-                AdMobHelper.showBannerView();
-            }
-        } else {
-            AdMobHelper.hideBannerView();
-        }
-    }
-
-    Store {
-        id: store
-
-        Product {
-            id:         fullVersionProduct
-            identifier: "christmastree.version.full"
-            type:       Product.Unlockable
-
-            onPurchaseSucceeded: {
-                mainWindow.fullVersion = true;
-
-                transaction.finalize();
-            }
-
-            onPurchaseRestored: {
-                mainWindow.fullVersion = true;
-
-                transaction.finalize();
-            }
-
-            onPurchaseFailed: {
-                if (transaction.failureReason === Transaction.ErrorOccurred) {
-                    console.error(transaction.errorString);
-                }
-
-                transaction.finalize();
-            }
-        }
-    }
-
     StackView {
         id:           mainStackView
         anchors.fill: parent
@@ -118,18 +53,6 @@ ApplicationWindow {
 
             if (depth > 0) {
                 currentItem.forceActiveFocus();
-
-                if (typeof currentItem.bannerViewHeight === "number") {
-                    if (mainWindow.fullVersion) {
-                        AdMobHelper.hideBannerView();
-                    } else {
-                        AdMobHelper.showBannerView();
-                    }
-                } else {
-                    AdMobHelper.hideBannerView();
-                }
-            } else {
-                AdMobHelper.hideBannerView();
             }
         }
     }
@@ -140,34 +63,13 @@ ApplicationWindow {
         enabled:      mainStackView.busy
     }
 
-    AdMobConsentDialog {
-        id: adMobConsentDialog
-
-        onPersonalizedAdsSelected: {
-            mainWindow.adMobConsent = "PERSONALIZED";
-        }
-
-        onNonPersonalizedAdsSelected: {
-            mainWindow.adMobConsent = "NON_PERSONALIZED";
-        }
-    }
-
     Component.onCompleted: {
-        fullVersion  = (getSetting("FullVersion",  "false") === "true");
-        adMobConsent =  getSetting("AdMobConsent", "");
-
-        updateFeatures();
-
         var component = Qt.createComponent("Core/TreePage.qml");
 
         if (component.status === Component.Ready) {
             mainStackView.push(component);
         } else {
             console.error(component.errorString());
-        }
-
-        if (!fullVersion && adMobConsent !== "PERSONALIZED" && adMobConsent !== "NON_PERSONALIZED") {
-            adMobConsentDialog.open();
         }
     }
 }
